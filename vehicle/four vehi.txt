@@ -1,0 +1,24 @@
+package com.veh;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("Four Vehi")
+public class FourWheeler extends Vehicle {
+ private String steeringWheeler;
+
+public String getSteeringWheeler() {
+	return steeringWheeler;
+}
+
+public void setSteeringWheeler(String steeringWheeler) {
+	this.steeringWheeler = steeringWheeler;
+}
+
+public FourWheeler() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+ 
+}

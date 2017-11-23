@@ -1,0 +1,87 @@
+package org.main;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.grocessary.stock.Item;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class Solution {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
+		SessionFactory sf = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();// creates
+																										// table
+		Session session = sf.openSession();
+
+		while (true) {
+			int ch;
+			System.out.println("Enter value:");
+			ch = Integer.valueOf(bf.readLine());
+			switch (ch) {
+			case 1:
+				session.beginTransaction();
+				int id;
+				String name;
+				int quantity;
+				double price ;
+				//Item item = new Item(id,name,quantity,price);
+
+				System.out.print("Enter ID");
+				id = Integer.valueOf(bf.readLine());
+				System.out.print("Enter NAME");
+				name = bf.readLine();
+				System.out.print("Enter QUANTITY");
+				quantity = Integer.valueOf(bf.readLine());
+				System.out.print("Enter PRICE");
+				price = Double.valueOf(bf.readLine());
+				Item item = new Item(id,name,quantity,price);
+
+				session.save(item);
+				session.getTransaction().commit();
+			
+			case 2:
+				Item item1=session.get(Item.class, 1);
+				System.out.println(item1.getId());
+				System.out.println(item1.getName());
+				System.out.println(item1.getQuantity());
+				System.out.println(item1.getPrice());
+				break;
+			case 3:
+
+				Item item2 = session.get(Item.class,1);
+				session.beginTransaction();
+				item2.setName("shripriya");
+				item2.setId(1);
+				session.update(item2);
+				session.getTransaction().commit();
+				//System.out.println(item2.getName());
+			case 4:
+				System.out.println("Deleted");
+				session.beginTransaction();
+				Item item3=new Item();
+				item3.setId(2);
+				session.delete(item3);
+				session.getTransaction().commit();
+				break;
+			case 5:
+				Item item4=new Item();
+				System.out.println("Record doesnot esist in DB");
+				System.out.println(item4.getId());
+				System.out.println(item4.getName());
+				System.out.println(item4.getQuantity());
+				System.out.println(item4.getPrice());
+				break;
+			case 6:
+				System.out.println(Item.getTotalNoOfProducts());
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
